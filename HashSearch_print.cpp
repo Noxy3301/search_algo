@@ -1,6 +1,7 @@
 #include <iostream>
 #include <list>
 #include <vector>
+#include <string>
 using namespace std;
 
 int Hash(int x, int table_size) {

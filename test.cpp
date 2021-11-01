@@ -1,18 +1,24 @@
 #include <iostream>
 #include <thread>
-#include <exception>
-void
-do_worker1 (int a, int b) {
-        std::cout << __PRETTY_FUNCTION__ << " " << a << " " << b << std::endl;
-}
+#include <vector>
  
-int
-main (int argc, char *argv[]) {
-        try {
-                std::thread t1(do_worker1, 1,2);
-                t1.join();
-        } catch (std::exception &ex) {
-                std::cerr << ex.what() << std::endl;
-        }
-        return (0);
+using namespace std;
+ 
+void addRef(int x, int y,int &ans){
+    ans = x + y;
+}
+int main() {
+    const int N = 5;
+    const int x=1, y=2;
+
+    vector<thread> threads;
+    vector<int> result(N);
+
+    for (int i=0;i<N;++i)
+        threads.push_back(thread(addRef, x, y, ref(result[i])));
+    for (thread &t: threads)
+        t.join();
+    for (int r : result)
+        cout<<r<<endl;
+    return 0;
 }
